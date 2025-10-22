@@ -74,7 +74,7 @@ public class TodoService {
 
     // --- 3. 핵심 내용 및 계층 구조 변경 (PATCH Details) ---
     @Transactional
-    public Todo updateTodoDetails(Long todoId, String newTitle, Long newParentId, Long currentUserId) {
+    public Todo updateTodoDetails(Long todoId, String newTitle, Long currentUserId) {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + todoId));
 
@@ -84,6 +84,16 @@ public class TodoService {
         if (newTitle != null && !newTitle.isBlank()) {
             todo.setTitle(newTitle);
         }
+
+        return todo;
+    }
+    @Transactional
+    public Todo updateTodoParent(Long todoId, Long newParentId, Long currentUserId) {
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + todoId));
+
+        // 📌 본인 확인 체크 로직 호출
+        checkTodoOwnership(todo, currentUserId);
 
         if (newParentId != null) {
             Todo parentReference = todoRepository.getReferenceById(newParentId);

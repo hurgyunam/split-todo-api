@@ -1,10 +1,7 @@
 package com.overtheinfinite.splittodo.controller;
 
 import com.overtheinfinite.splittodo.domain.Todo;
-import com.overtheinfinite.splittodo.dto.TodoCreateRequest;
-import com.overtheinfinite.splittodo.dto.TodoResponse;
-import com.overtheinfinite.splittodo.dto.TodoUpdateCompletionRequest;
-import com.overtheinfinite.splittodo.dto.TodoUpdateDetailsRequest;
+import com.overtheinfinite.splittodo.dto.*;
 import com.overtheinfinite.splittodo.service.TodoService;
 import com.overtheinfinite.splittodo.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +46,6 @@ public class TodoController {
                 .body(new TodoResponse(createdTodo));
     }
 
-    // --- 3. 핵심 내용 및 계층 구조 변경 (PATCH /api/todos/{todoId}/details) ---
     @PatchMapping("/{todoId}/details")
     public ResponseEntity<TodoResponse> updateTodoDetails(
             @PathVariable Long todoId,
@@ -60,6 +56,20 @@ public class TodoController {
         Todo updatedTodo = todoService.updateTodoDetails(
                 todoId,
                 request.getTitle(),
+                currentUserId
+        );
+        return ResponseEntity.ok(new TodoResponse(updatedTodo));
+    }
+
+    @PatchMapping("/{todoId}/parent")
+    public ResponseEntity<TodoResponse> updateTodoDetails(
+            @PathVariable Long todoId,
+            @RequestBody TodoUpdateParentRequest request) {
+        Long currentUserId = getAuthenticatedUserId();
+
+        // Service에 모든 수정 정보와 현재 사용자 ID를 전달
+        Todo updatedTodo = todoService.updateTodoParent(
+                todoId,
                 request.getParentId(),
                 currentUserId
         );
