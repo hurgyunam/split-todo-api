@@ -8,16 +8,23 @@ import com.overtheinfinite.splittodo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService; // 가정한 서비스 이름
+    private final AuthenticationManager authenticationManager;
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 
     /**
      * 📌 POST /api/v1/auth/signup: 로컬 회원가입 엔드포인트
@@ -43,14 +50,25 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
 
-        // Service에 인증 요청
-        boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        // 1. 인증 토큰 생성
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                );
 
-        if (isAuthenticated) {
-            // 인증 성공 시, 토큰 발급 로직 등을 추가
-            return ResponseEntity.ok("Login successful");
-        } else {
-            // 인증 실패
+        try {
+            // 2. AuthenticationManager를 통해 인증 시도 (UserDetailsService를 호출)
+            Authentication authentication = authenticationManager.authenticate(authToken);
+
+            // 3. 인증 성공 시 SecurityContext에 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // 4. 세션이 자동 생성되고, 사용자 정보가 세션에 저장됨 (세션 기반의 핵심)
+            return ResponseEntity.ok("Session Login successful");
+
+        } catch (Exception e) {
+            // 인증 실패 (BadCredentialsException 등)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }

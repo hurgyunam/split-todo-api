@@ -1,4 +1,5 @@
 package com.overtheinfinite.splittodo.domain;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +32,10 @@ public class Todo {
     // 3. isCompleted (완료 여부)
     @Column(nullable = false)
     private boolean isCompleted = false; // 기본값은 false로 설정
+
+    // 📌 추가: 완료 시점 기록 (isCompleted가 true가 된 시점)
+    @Column(columnDefinition = "TIMESTAMP") // NULL 허용 (아직 완료되지 않은 경우)
+    private LocalDateTime completedAt;
 
     // 4. parentId (셀프 참조 관계)
     // 자기 자신(Todo)을 참조하는 Many-to-One 관계
