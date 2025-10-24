@@ -2,15 +2,19 @@ package com.overtheinfinite.splittodo.service;
 
 import com.overtheinfinite.splittodo.domain.User;
 import com.overtheinfinite.splittodo.dto.SignupRequest;
+import com.overtheinfinite.splittodo.dto.UserResponse;
 import com.overtheinfinite.splittodo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -54,5 +58,20 @@ public class UserService {
         String encodedPassword = user.getPassword();
 
         return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // 1. username으로 DB에서 사용자 정보(Entity)를 찾습니다.
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        // 2. 찾은 Entity 정보를 기반으로 UserDetails 객체를 만들어서 반환합니다.
+        // Spring Security의 User 객체는 비밀번호, 사용자 이름, 권한을 포함합니다.
+        return UserResponse.builder()
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .password(user.getPassword())
+                .build();
     }
 }
