@@ -1,8 +1,9 @@
-package com.overtheinfinite.splittodo.controller;
+package com.overtheinfinite.splittodo.todo;
 
-import com.overtheinfinite.splittodo.domain.Todo;
+import com.overtheinfinite.splittodo.todo.domain.Todo;
 import com.overtheinfinite.splittodo.dto.*;
-import com.overtheinfinite.splittodo.service.TodoService;
+import com.overtheinfinite.splittodo.todo.TodoService;
+import com.overtheinfinite.splittodo.todo.dto.*;
 import com.overtheinfinite.splittodo.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.overtheinfinite.splittodo.dto;
+package com.overtheinfinite.splittodo.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,10 +1,9 @@
-package com.overtheinfinite.splittodo.controller;
+package com.overtheinfinite.splittodo.auth;
 // AuthController.java
 
-import com.overtheinfinite.splittodo.domain.User;
-import com.overtheinfinite.splittodo.dto.LoginRequest;
-import com.overtheinfinite.splittodo.dto.SignupRequest;
-import com.overtheinfinite.splittodo.service.UserService;
+import com.overtheinfinite.splittodo.auth.dto.LoginRequest;
+import com.overtheinfinite.splittodo.auth.dto.SignupRequest;
+import com.overtheinfinite.splittodo.todo.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

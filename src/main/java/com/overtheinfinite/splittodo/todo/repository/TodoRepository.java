@@ -1,6 +1,6 @@
-package com.overtheinfinite.splittodo.repository;
+package com.overtheinfinite.splittodo.todo.repository;
 
-import com.overtheinfinite.splittodo.domain.Todo;
+import com.overtheinfinite.splittodo.todo.domain.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

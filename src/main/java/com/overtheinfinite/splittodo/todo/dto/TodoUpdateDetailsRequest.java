@@ -1,4 +1,4 @@
-package com.overtheinfinite.splittodo.dto;
+package com.overtheinfinite.splittodo.todo.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,5 +1,5 @@
-package com.overtheinfinite.splittodo.repository;
-import com.overtheinfinite.splittodo.domain.User;
+package com.overtheinfinite.splittodo.auth;
+import com.overtheinfinite.splittodo.todo.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

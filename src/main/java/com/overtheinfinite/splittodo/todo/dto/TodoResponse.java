@@ -1,6 +1,6 @@
-package com.overtheinfinite.splittodo.dto;
+package com.overtheinfinite.splittodo.todo.dto;
 
-import com.overtheinfinite.splittodo.domain.Todo;
+import com.overtheinfinite.splittodo.todo.domain.Todo;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

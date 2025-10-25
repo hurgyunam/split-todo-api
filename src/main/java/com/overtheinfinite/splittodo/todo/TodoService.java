@@ -1,13 +1,13 @@
-package com.overtheinfinite.splittodo.service;
+package com.overtheinfinite.splittodo.todo;
 
-import com.overtheinfinite.splittodo.domain.ArchivedTodo;
-import com.overtheinfinite.splittodo.domain.Todo;
-import com.overtheinfinite.splittodo.domain.User;
-import com.overtheinfinite.splittodo.dto.TodoCreateRequest;
-import com.overtheinfinite.splittodo.dto.TodoResponse;
-import com.overtheinfinite.splittodo.repository.ArchivedTodoRepository;
-import com.overtheinfinite.splittodo.repository.TodoRepository;
-import com.overtheinfinite.splittodo.repository.UserRepository;
+import com.overtheinfinite.splittodo.todo.domain.ArchivedTodo;
+import com.overtheinfinite.splittodo.todo.domain.Todo;
+import com.overtheinfinite.splittodo.todo.domain.User;
+import com.overtheinfinite.splittodo.todo.dto.TodoCreateRequest;
+import com.overtheinfinite.splittodo.todo.dto.TodoResponse;
+import com.overtheinfinite.splittodo.todo.repository.ArchivedTodoRepository;
+import com.overtheinfinite.splittodo.todo.repository.TodoRepository;
+import com.overtheinfinite.splittodo.auth.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

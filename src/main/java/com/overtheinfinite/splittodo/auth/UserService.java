@@ -1,9 +1,8 @@
-package com.overtheinfinite.splittodo.service;
+package com.overtheinfinite.splittodo.auth;
 
-import com.overtheinfinite.splittodo.domain.User;
-import com.overtheinfinite.splittodo.dto.SignupRequest;
-import com.overtheinfinite.splittodo.dto.UserResponse;
-import com.overtheinfinite.splittodo.repository.UserRepository;
+import com.overtheinfinite.splittodo.todo.domain.User;
+import com.overtheinfinite.splittodo.auth.dto.SignupRequest;
+import com.overtheinfinite.splittodo.auth.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
