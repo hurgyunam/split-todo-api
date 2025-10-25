@@ -7,7 +7,6 @@ import com.overtheinfinite.splittodo.auth.dto.KakaoTokenResponse;
 import com.overtheinfinite.splittodo.auth.dto.KakaoUserInfoDto;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -16,10 +15,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.List;
-
 @Service
-public class SocialLoginService {
+public class KakaoLoginService {
     private final WebClient webClient;
     private final UserRepository userRepository;
 
@@ -36,14 +33,14 @@ public class SocialLoginService {
     @Value("${kakao.user-info-url}")
     private String userInfoUrl;
 
-    public SocialLoginService(WebClient.Builder webClientBuilder, UserRepository userRepository) {
+    public KakaoLoginService(WebClient.Builder webClientBuilder, UserRepository userRepository) {
         // WebClient 인스턴스 생성
         this.webClient = webClientBuilder.baseUrl(tokenUrl).build();
         this.userRepository = userRepository;
     }
     public Authentication loginKakao(String code) {
         String kakaoAccessToken = getKakaoAccessToken(code);
-        Long kakaoUniqueId = getUserId(kakaoAccessToken);
+        Long kakaoUniqueId = getKakaoUserId(kakaoAccessToken);
 
         User user = userRepository.findBySocialId(kakaoUniqueId.toString())
                 .orElse(null); // 사용자가 없으면 null 반환;
@@ -93,7 +90,7 @@ public class SocialLoginService {
     }
 
     // --- 2. 사용자 ID 획득 ---
-    private Long getUserId(String accessToken) {
+    private Long getKakaoUserId(String accessToken) {
 
         // 사용자 정보 API는 GET 요청이며, Authorization 헤더에 Access Token이 필요합니다.
         KakaoUserInfoDto userInfo = WebClient.builder() // userInfoUrl은 다른 baseUrl이므로 재설정
