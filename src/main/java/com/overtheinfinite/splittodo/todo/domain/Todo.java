@@ -1,5 +1,6 @@
 package com.overtheinfinite.splittodo.todo.domain;
 
+import com.overtheinfinite.splittodo.auth.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

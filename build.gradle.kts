@@ -22,6 +22,8 @@ dependencies {
     // 💡 REST API 개발을 위한 Spring Boot Web Starter 의존성 추가
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
+
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     // 💡 MariaDB JDBC 드라이버 추가 (SQLite 드라이버 대신 이것을 사용)
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     // 💡 개발 편의를 위한 Lombok (선택 사항)

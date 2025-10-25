@@ -1,9 +1,12 @@
 package com.overtheinfinite.splittodo.auth;
 // AuthController.java
 
+import com.overtheinfinite.splittodo.auth.dto.KakaoLoginRequest;
 import com.overtheinfinite.splittodo.auth.dto.LoginRequest;
 import com.overtheinfinite.splittodo.auth.dto.SignupRequest;
-import com.overtheinfinite.splittodo.todo.domain.User;
+import com.overtheinfinite.splittodo.auth.service.SocialLoginService;
+import com.overtheinfinite.splittodo.auth.service.UserService;
+import com.overtheinfinite.splittodo.auth.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final UserService userService; // 가정한 서비스 이름
     private final AuthenticationManager authenticationManager;
+    private final SocialLoginService socialLoginService;
 
     @GetMapping("/test")
     public String test() {
@@ -69,6 +74,29 @@ public class AuthController {
         } catch (Exception e) {
             // 인증 실패 (BadCredentialsException 등)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    @PostMapping("/login/kakao")
+    public ResponseEntity<Map<String, String>> loginKakao(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
+        try {
+            Authentication authentication = socialLoginService.loginKakao(kakaoLoginRequest.getCode());
+
+            if(authentication != null) {
+                // 3. 인증 성공 시 SecurityContext에 저장
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                Map<String, String> response = Map.of("status", "success");
+                return ResponseEntity.ok(response);
+
+            } else {
+                // 🎯 변경된 부분: Map을 사용
+                Map<String, String> response = Map.of("status", "route signup");
+                return ResponseEntity.ok(response);
+            }
+        } catch (Exception e) {// 인증 실패 (BadCredentialsException 등)
+            Map<String, String> errorResponse = Map.of("error", "Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.overtheinfinite.splittodo.todo.domain;
+package com.overtheinfinite.splittodo.auth.domain;
 import jakarta.persistence.*;
 import lombok.*;
 

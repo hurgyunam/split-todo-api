@@ -1,8 +1,9 @@
-package com.overtheinfinite.splittodo.auth;
+package com.overtheinfinite.splittodo.auth.service;
 
-import com.overtheinfinite.splittodo.todo.domain.User;
+import com.overtheinfinite.splittodo.auth.UserRepository;
+import com.overtheinfinite.splittodo.auth.domain.User;
 import com.overtheinfinite.splittodo.auth.dto.SignupRequest;
-import com.overtheinfinite.splittodo.auth.dto.UserResponse;
+import com.overtheinfinite.splittodo.auth.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -67,7 +68,7 @@ public class UserService implements UserDetailsService {
 
         // 2. 찾은 Entity 정보를 기반으로 UserDetails 객체를 만들어서 반환합니다.
         // Spring Security의 User 객체는 비밀번호, 사용자 이름, 권한을 포함합니다.
-        return UserResponse.builder()
+        return CustomUserDetails.builder()
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .password(user.getPassword())

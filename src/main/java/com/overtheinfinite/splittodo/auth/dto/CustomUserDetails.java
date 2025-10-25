@@ -1,5 +1,6 @@
 package com.overtheinfinite.splittodo.auth.dto;
 
+import com.overtheinfinite.splittodo.auth.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,16 +11,20 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-public class UserResponse implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String password;
     private final String nickname;
+    private final String socialId;
+    private final User.AuthProvider authProvider;
 
     @Builder
-    public UserResponse(String username, String password, String nickname) {
+    public CustomUserDetails(String username, String password, String nickname, String socialId, User.AuthProvider authProvider) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.socialId = socialId;
+        this.authProvider = authProvider;
     }
 
     @Override

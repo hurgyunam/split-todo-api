@@ -2,7 +2,7 @@ package com.overtheinfinite.splittodo.todo;
 
 import com.overtheinfinite.splittodo.todo.domain.ArchivedTodo;
 import com.overtheinfinite.splittodo.todo.domain.Todo;
-import com.overtheinfinite.splittodo.todo.domain.User;
+import com.overtheinfinite.splittodo.auth.domain.User;
 import com.overtheinfinite.splittodo.todo.dto.TodoCreateRequest;
 import com.overtheinfinite.splittodo.todo.dto.TodoResponse;
 import com.overtheinfinite.splittodo.todo.repository.ArchivedTodoRepository;
